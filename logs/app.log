@@ -3415,3 +3415,8 @@ io.jsonwebtoken.SignatureException: JWT signature does not match locally compute
 2024-08-21 09:52:12.926 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9090 (http) with context path '/'
 2024-08-21 09:52:12.933 [restartedMain] INFO  c.rk.UserManagementModuleApplication - Started UserManagementModuleApplication in 1.009 seconds (process running for 5718.483)
 2024-08-21 09:52:12.934 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-08-21 11:02:35.270 [RMI TCP Connection(169)-127.0.0.1] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2024-08-21 11:02:35.468 [RMI TCP Connection(169)-127.0.0.1] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9090"]
+2024-08-21 11:02:35.589 [RMI TCP Connection(169)-127.0.0.1] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-08-21 11:02:35.639 [RMI TCP Connection(169)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Shutdown initiated...
+2024-08-21 11:02:35.652 [RMI TCP Connection(169)-127.0.0.1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Shutdown completed.
