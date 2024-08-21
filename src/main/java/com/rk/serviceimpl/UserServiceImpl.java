@@ -18,6 +18,8 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    private static final String DEFAULT_USERNAME = "ravi";
 
     public User registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -41,21 +43,33 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void deleteUser(Long id) {
-		userRepository.deleteById(id);
-		
-	}
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (DEFAULT_USERNAME.equals(user.getUsername())) {
+            throw new RuntimeException("Cannot delete the default user");
+        }
+
+        userRepository.deleteById(id);
+    }
 	
 	 @Override
 	    public User updateUser(Long id, User updatedUser) {
 	        User existingUser = userRepository.findById(id)
-	                .orElseThrow(() -> new RuntimeException("User not found"));
+	            .orElseThrow(() -> new RuntimeException("User not found"));
+
+	        if (DEFAULT_USERNAME.equals(existingUser.getUsername())) {
+	            throw new RuntimeException("Cannot update the default user");
+	        }
 
 	        existingUser.setUsername(updatedUser.getUsername());
 	        existingUser.setRole(updatedUser.getRole());
 
-	        // Optionally update password if provided (add validation if needed)
-	      
+	        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+	            existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+	        }
+
 	        return userRepository.save(existingUser);
 	    }
 	
