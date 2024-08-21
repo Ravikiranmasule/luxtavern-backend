@@ -16,10 +16,11 @@ import java.util.function.Function;
 public class JwtTokenUtil {
 
    
-    private String secret="your-secret-key";
+	   @Value("${jwt.secret}")
+	    private String secret;
 
-   
-    private Long expiration= 3600L;
+	    @Value("${jwt.expiration}")
+	    private Long expiration;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
