@@ -19,7 +19,7 @@ public class JwtTokenUtil {
     private String secret="your-secret-key";
 
    
-    private Long expiration=(long) 3600;
+    private Long expiration= 3600L;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
