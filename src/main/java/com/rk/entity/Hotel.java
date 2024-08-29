@@ -2,6 +2,8 @@ package com.rk.entity;
 
 
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -29,5 +31,7 @@ public class Hotel {
 
     @Column
     private Integer starRating; // Example of additional property
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    private List<Restaurant> restaurants;
 }
 

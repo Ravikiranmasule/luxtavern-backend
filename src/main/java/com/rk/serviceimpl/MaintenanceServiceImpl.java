@@ -1,13 +1,21 @@
 package com.rk.serviceimpl;
 
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rk.constants.RequestStatus;
 import com.rk.entity.MaintenanceRequest;
+import com.rk.entity.Room;
 import com.rk.entity.Staff;
+import com.rk.model.MaintenanceRequestDto;
 import com.rk.repository.MaintenanceRepository;
+import com.rk.repository.RoomRepository;
 import com.rk.repository.StaffRepository;
 import com.rk.service.MaintenanceService;
+
+import ch.qos.logback.classic.Logger;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +23,13 @@ import java.util.Optional;
 
 @Service
 public class MaintenanceServiceImpl implements MaintenanceService {
+	
+	Logger log=(Logger) LoggerFactory.getLogger(MaintenanceServiceImpl.class);
+	@Autowired
+	RoomRepository roomRepo;
+	
+	@Autowired
+	StaffRepository staffRepo;
 
     @Autowired
     private MaintenanceRepository maintenanceRepository;
@@ -28,15 +43,24 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     public Optional<MaintenanceRequest> getRequestById(Long id) {
         return maintenanceRepository.findById(id);
     }
-    public MaintenanceRequest createRequest(MaintenanceRequest request) {
+    public MaintenanceRequest createRequest(MaintenanceRequestDto requestDto) {
         // Ensure that the technicianAssigned is fetched correctly
-    	request.setCreatedAt(LocalDateTime.now());
-        request.setUpdatedAt(LocalDateTime.now());
-        if (request.getTechnicianAssigned() != null && request.getTechnicianAssigned().getId() != null) {
-            Staff technician = staffRepository.findById(request.getTechnicianAssigned().getId()).orElse(null);
-            request.setTechnicianAssigned(technician);
-        }
-        return maintenanceRepository.save(request);
+    	MaintenanceRequest request=new MaintenanceRequest();
+    	requestDto.setCreatedAt(LocalDateTime.now());
+        requestDto.setUpdatedAt(LocalDateTime.now());
+        
+      
+       BeanUtils.copyProperties(requestDto, request);
+       Optional<Room> byId = roomRepo.findById(requestDto.getRoomId());
+       Room room = byId.get();
+       request.setRoom(room);
+       Staff staff = staffRepo.findById(requestDto.getTechnicianAssignedId()).get();
+       request.setTechnicianAssigned(staff);
+       RequestStatus status = RequestStatus.valueOf(requestDto.getStatus().toUpperCase());
+       request.setStatus(status);
+       System.out.println(request);
+       MaintenanceRequest savedMaintenance = maintenanceRepository.save(request);
+        return savedMaintenance;
     }
 
    

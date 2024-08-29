@@ -1,16 +1,12 @@
 package com.rk.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Data
 @Entity
@@ -28,10 +24,8 @@ public class Staff {
     private String position;
 
     @OneToMany(mappedBy = "assignedTo")
-    @JsonManagedReference
     private Set<HousekeepingSchedule> assignedSchedules;
 
     @OneToMany(mappedBy = "technicianAssigned")
-    @JsonManagedReference
-    private Set<MaintenanceRequest> assignedRequests;
+   private Set<MaintenanceRequest> assignedRequests;
 }

@@ -32,6 +32,7 @@ public class MaintenanceRequest {
 
     @ManyToOne
     @JoinColumn(name = "room_id")
+    @JsonBackReference
     private Room room;
 
     @Column
@@ -45,8 +46,7 @@ public class MaintenanceRequest {
 
     @ManyToOne
     @JoinColumn(name = "technician_id")
-    @JsonBackReference
-    private Staff technicianAssigned;
+     private Staff technicianAssigned;
 
     @Column
     private String notes;

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.rk.entity.MaintenanceRequest;
+import com.rk.model.MaintenanceRequestDto;
 
 public interface MaintenanceService {
 
@@ -11,7 +12,7 @@ public interface MaintenanceService {
 
 	Optional<MaintenanceRequest> getRequestById(Long id);
 
-	MaintenanceRequest createRequest(MaintenanceRequest request);
+	MaintenanceRequest createRequest(MaintenanceRequestDto requestDto);
 
 	MaintenanceRequest updateRequest(Long id, MaintenanceRequest request);
 

@@ -3,6 +3,7 @@ package com.rk.controller;
 
 
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import com.rk.constants.RequestStatus;
 import com.rk.entity.MaintenanceRequest;
+import com.rk.model.MaintenanceRequestDto;
 import com.rk.service.MaintenanceService;
+
+import ch.qos.logback.classic.Logger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +26,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/maintenance")
 @PreAuthorize("hasRole('MAINTENANCE')")
 public class MaintenanceController {
+	
+	Logger log=(Logger) LoggerFactory.getLogger(MaintenanceController.class);
 
     @Autowired
     private MaintenanceService maintenanceService;
@@ -38,9 +44,17 @@ public class MaintenanceController {
     }
 
     @PostMapping
-    public ResponseEntity<MaintenanceRequest> createRequest(@RequestBody MaintenanceRequest request) {
-        MaintenanceRequest createdRequest = maintenanceService.createRequest(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdRequest);
+    public ResponseEntity<MaintenanceRequest> createRequest(@RequestBody MaintenanceRequestDto requestDto) {
+    	try {
+    		 MaintenanceRequest createdRequest = maintenanceService.createRequest(requestDto);
+    	       
+    	        return ResponseEntity.status(HttpStatus.CREATED).body(createdRequest);
+		} catch (Exception e) {
+			 log.error(e.getMessage());
+			 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+       
     }
 
     @PutMapping("/{id}")

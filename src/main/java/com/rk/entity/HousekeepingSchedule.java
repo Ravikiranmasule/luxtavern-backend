@@ -24,7 +24,6 @@ public class HousekeepingSchedule {
 
     @ManyToOne
     @JoinColumn(name = "staff_id", nullable = false)
-    @JsonBackReference
     private Staff assignedTo;
 
     @ManyToOne

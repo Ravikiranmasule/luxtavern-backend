@@ -5,10 +5,21 @@ import java.time.LocalDateTime;
 
 import com.rk.entity.Room;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class MaintenanceRequestDto {
     private String description;
     private String status;
-    private Room room; // Or Room ID
+    private Long roomId; // Or Room ID
     private String reportedBy;
     private LocalDateTime requestTime;
     private LocalDateTime completionTime;
