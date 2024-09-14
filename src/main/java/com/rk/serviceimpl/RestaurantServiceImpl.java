@@ -1,9 +1,15 @@
 package com.rk.serviceimpl;
 
+import com.rk.entity.Hotel;
 import com.rk.entity.Restaurant;
+import com.rk.model.RestaurantDto;
+import com.rk.repository.HotelRepository;
 import com.rk.repository.RestaurantRepository;
 import com.rk.service.RestaurantService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +20,21 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+    @Autowired
+    HotelRepository hotelRepository;
+    
+    Logger log=LoggerFactory.getLogger(RestaurantServiceImpl.class);
 
-    public Restaurant createRestaurant(Restaurant restaurant) {
+    public Restaurant createRestaurant(RestaurantDto restaurantDto) {
+    log.info("in createRestaurant method of RestaurantServiceImpl");
+    	Restaurant restaurant=new Restaurant();
+    	Hotel hotel = hotelRepository.findById(restaurantDto.getHotelId()).get();
+    	System.out.println("hotel obj");
+    	System.out.println();
+    	System.out.println(restaurantDto);
+    	restaurant.setHotel(hotel);
+    	BeanUtils.copyProperties(restaurantDto, restaurant);
+    	System.out.println(restaurant);
         return restaurantRepository.save(restaurant);
     }
 

@@ -3,6 +3,7 @@ package com.rk.service;
 import java.util.List;
 
 import com.rk.entity.Restaurant;
+import com.rk.model.RestaurantDto;
 
 public interface RestaurantService {
 
@@ -19,7 +20,7 @@ public interface RestaurantService {
 	Object getRestaurantsByHotel(Long hotelId);
 
 
-     Object createRestaurant(Restaurant restaurant);
+     Object createRestaurant(RestaurantDto restaurantDto);
 
 
 }
